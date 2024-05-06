@@ -1,16 +1,31 @@
+# Di file forms.py di aplikasi Anda
+
 from django import forms
 from .models import Pemesanan
 
-# class PemesananForm(forms.ModelForm):
-#     class Meta:
-#         model = Pemesanan
-#         fields = ['tanggal_mulai', 'nama_lengkap', 'nomor_hp', 'jenis_kelamin', 'foto_ktp', 'bukti_pembayaran', 'alamat']
-#         widgets = {
-#             'tanggal_mulai': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-#             'nama_lengkap': forms.TextInput(attrs={'class': 'form-control'}),
-#             'nomor_hp': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '+62'}),
-#             'jenis_kelamin': forms.Select(attrs={'class': 'form-select'}),
-#             'foto_ktp': forms.FileInput(attrs={'class': 'form-control'}),
-#             'bukti_pembayaran': forms.FileInput(attrs={'class': 'form-control'}),
-#             'alamat': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-#         }
+# Di file forms.py
+
+class PemesananForm(forms.ModelForm):
+    JENIS_KELAMIN_CHOICES = [
+        ('Laki-laki', 'Laki-laki'),
+        ('Perempuan', 'Perempuan'),
+    ]
+
+    jenis_kelamin = forms.ChoiceField(choices=JENIS_KELAMIN_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}))
+
+    class Meta:
+        model = Pemesanan
+        fields = ['kos', 'penyewa', 'nomor_hp', 'jenis_kelamin', 'mulai_sewa', 'bukti_pembayaran', 'ktp', 'alamat']
+        widgets = {
+            'kos': forms.HiddenInput(), 
+            'mulai_sewa': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'penyewa': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nama User'}),
+            'nomor_hp': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '08511111111'}),
+            'bukti_pembayaran': forms.FileInput(attrs={'class': 'form-control'}),
+            'ktp': forms.FileInput(attrs={'class': 'form-control'}),
+            'alamat': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Dusun, Desa, Kec-Kab'}),
+        }
+        labels = {
+            'mulai_sewa': 'Tanggal Mulai',  # Merubah label mulai_sewa menjadi 'Tanggal Sewa'
+            'ktp': 'Foto KTP'  # Merubah label mulai_sewa menjadi 'Tanggal Sewa'
+        }

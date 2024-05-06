@@ -24,5 +24,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('form/sewa', views.form_sewa, name='form_sewa'),
     path('datail/<int:id>/', views.detail, name='detail'),
+    path('form-sewa/', views.form_sewa, name='form_sewa'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -31,53 +31,56 @@
       <div class="container col-xxl-10">
         <div class="row flex-lg-row-reverse align-items-center g-5 pb-5 ">
           <!-- bagian  1 img-->
-          <div class="col-lg-6 bg-white shadow border-start-0 rounded-end text-dark py-4 px-5" >
+          <div class="col-lg-6 bg-white shadow border-start-0 rounded-end text-dark py-3 px-5" >
             <h3 class=" fw-bold" style="color: rgb(255, 42, 77);">Form Pengajuan Sewa</h3>
-            <p class="lead" >isi data diri anda dengan benar!</p>
+            <p class="lead" style="padding-bottom: 5px;">isi data diri anda dengan benar!</p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-1">
-              <form class="row g-3">
+              <form class="row g-3" method="POST" enctype="multipart/form-data" style="padding: 20px 0;">
+                {% csrf_token %}
+                <!-- tgl mulai -->
                 <div class="col-md-6">
-                  <label for="inputPassword4" class="form-label">Tanggal Mulai</label>
-                  <input type="date" class="form-control" id="inputEmail4">
+                  {{ form.mulai_sewa.label }}
+                  {{ form.mulai_sewa }}
                 </div>
+                <!-- penyewa -->
                 <div class="col-md-6">
-                  <label for="inputEmail4" class="form-label">Nama Lengkap</label>
-                  <input type="text" class="form-control" id="inputPassword4">
+                  {{form.penyewa.label}}
+                  {{form.penyewa}}
                 </div>
+                <!-- nomor hp -->
                 <div class="col-6">
-                  <label for="inputAddress" class="form-label">Nomor HP/WA</label>
-                  <input type="number" class="form-control" placeholder="+62">
+                  {{form.nomor_hp.label}}
+                  {{form.nomor_hp}}
                 </div>
+                <!-- jenis kelamian -->
                 <div class="col-6">
-                  <label for="inputAddress" class="form-label">Jenis Kelamin</label>
-                  <<select class="form-select" aria-label="Default select example">
-                    <option selected>Pilih Jenis Kelamin</option>
-                    <option value="1">Laki-laki</option>
-                    <option value="2">Perempuan</option>
-                  </select>
+                  {{form.jenis_kelamin.label}}
+                  {{form.jenis_kelamin}}
                 </div>
+                <!-- ktp -->
                 <div class="col-md-6">
-                  <label for="inputCity" class="form-label">Foto KTP</label>
-                  <input type="file" class="form-control" required>
+                  {{form.ktp.label}}
+                  {{form.ktp}}
                 </div>
+                <!-- bukti -->
                 <div class="col-md-6">
-                  <label for="inputCity" class="form-label">Bukti Pembayaran</label>
-                  <input type="file" class="form-control"  required>
+                  {{form.bukti_pembayaran.label}}
+                  {{form.bukti_pembayaran}}
                 </div>
                 <div class="col-12">
-                  <label for="inputAddress2" class="form-label">Alamat</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                  {{form.alamat.label}}
+                  {{form.alamat}}
                 </div>
                 
                 <div class="col-12 pt-4 text-end">
-                  <button  class="btn text-white" style="width: 100px; background-color: rgb(56, 56, 56);">Batal</button>
-                  <a href="{% url 'form_sewa' %}" type="submit" class="btn btn-primary" style="background-color: rgb(255, 2, 69); border: none;">Ajukan Sewa</a>
+                  <a href="" class="btn text-white" style="width: 100px; background-color: rgb(56, 56, 56);">Batal</a>
+                  <button type="submit" class="btn btn-primary text-center" style="background-color: rgb(255, 2, 69); border: none;">Ajukan Sewa</button>
                 </div>
               </form>
             </div>
           </div>
           <!-- bagian 2 form -->
-          <div class="col-10 col-sm-8 col-lg-6 shadow border-start-0 rounded-start py-4 text-white" style="background-color: rgb(247, 19, 87);">
+          <div class="col-10 col-sm-8 col-lg-6 shadow border-start-0 rounded-start py-4 text-white" style="background-color: rgb(247, 19, 87); ">
             <img src="{% static 'img/icons.png' %}" alt="" width="100px" >
             <h3 class="fw-bold lh-1 mt-4  text-center">Lagi Cari KOS?</h3>
             <p class="lead text-center mx-5 my-4">Cari kos di tempat yang nyaman  sesuai  keinginan hanya di BaiqKos</p>

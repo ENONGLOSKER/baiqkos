@@ -27,13 +27,14 @@ class FotoKos(models.Model):
 
 class Pemesanan(models.Model):
     kos = models.ForeignKey(Kos, on_delete=models.CASCADE)
-    tanggal_pesan = models.DateField(auto_now_add=True)
+    tanggal_pesan = models.DateField(auto_now_add=True, blank=True, null=True)
     penyewa = models.CharField(max_length=100)
     jenis_kelamin = models.CharField(max_length=20)
     mulai_sewa = models.DateField()
     nomor_hp = models.CharField(max_length=15)
     bukti_pembayaran = models.ImageField(upload_to='bukti_pembayaran/')
     ktp = models.ImageField(upload_to='ktp/')
+    alamat = models.TextField()
 
     def __str__(self):
         return f"Pemesanan {self.kos.nama} pada {self.tanggal_pesan}"
