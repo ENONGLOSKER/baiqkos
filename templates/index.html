@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BAIQ KOS</title>
+  <link href="{% static 'img/icon.png' %}" rel="icon">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <style>
+    .kos a .kos-card{
+    width: 320px;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 5px 5px 10px rgb(211, 211, 211);
+  }
+  .kos a .kos-card #bg{
+    width: 320px;
+    border-radius: 0;
+  }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <a href="#"><img src="{% static 'img/LOGO.png' %}" alt="Logo"></a>
+    </div>
+    <div class="navbar-menu">
+      <ul class="menu-items">
+        <li><a href="#">Pusat Bantuan</a></li>
+        <li><a href="#">Syarat & Ketentuan</a></li>
+      </ul>
+    </div>
+    <div class="hamburger-menu">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+  </nav>
+
+
+  <div class="container">
+    <!-- header -->
+    <div class="header1">
+      <img src="{% static 'img/bg_hero.png' %}" alt="bg hero">
+      
+      <div class="forms">
+        <h1>Mau cari <span>Kos?</span></h1>
+        <p id="slogan">Dapatkan infonya dan langsung sewa di BaiqKos</p>
+        <form action="">
+          <ion-icon name="search-outline" id="iconsch"></ion-icon>
+          <input type="text" placeholder=" Cari Lokasi atau Nama Kos">
+          <button type="submit" >Cari</button>
+        </form>
+      </div>
+
+      
+    </div>
+    <!-- carosel -->
+    <div class="image-container">
+      <div class="image-wrapper">
+        <div>
+          <img src="{% static 'img/promo1.png' %}" alt="" id="img-slide" >
+        </div>
+        <div>
+          <img src="{% static 'img/promo2.png' %}" alt="" id="img-slide">
+        </div>
+        <div>
+          <img src="{% static 'img/promo3.png' %}" alt="" id="img-slide">
+        </div>       
+      </div>
+    </div>
+    <!-- filter -->
+    <div class="filter">
+      <form action="">
+        <label for="cars" >Filter berdasarkan :</label>
+        <br>
+        <select name="cars" id="cars" style="margin-top: 10px;">
+          <option value="">Kategori</option>
+          <option value="">Kos Putra</option>
+          <option value="">Kos Putri</option>
+        </select>
+        <select name="cars" id="cars" style="width: 120px;">
+          <option value="">Wilayah</option>
+          <option value="">Gelogor</option>
+          <option value="">Darul Hijrah</option>
+          <option value="">Kepah</option>
+          <option value="">Gapuk</option>
+        </select>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+    <!-- katalog kos -->
+    <div class="kos">
+      {% for kos_item in kos %}
+      <a href="{% url 'detail' id=kos_item.id %}">
+        <div class="kos-card">
+          {% if kos_item.fotos.all %}
+            <img src="{{ kos_item.fotos.all.first.foto.url }}" alt="Gambar {{ kos_item.nama }}">
+          {% endif %}
+          <div class="kos-title" style="text-transform: capitalize;">
+            <!-- ket 1 -->
+            <div class="kos-ket1">
+              <!-- sub ket -->
+              <div class="kos-sub1">
+                <h5>{{ kos_item.jenis }}</h5>
+                <p>sisa {{ kos_item.sisa_kamar }} kamar</p>
+              </div>
+              <!-- love -->
+              <div class="kos-love">
+                <ion-icon name="heart"></ion-icon>
+                <p>{{ kos_item.suka }}</p>
+              </div>
+            </div>
+  
+            <!-- ket 2 -->
+            <h2 style="font-size: 15px;"> 
+              <span id="formatted-harga-{{ forloop.counter }}" style="font-size: 25px;">Rp {{ kos_item.harga_per_tahun }}</span>/Tahun
+            </h2>
+            <h1 id="namakos">{{ kos_item.nama }}</h1>
+            <span id="alamat">Alamat: {{ kos_item.alamat }}</span>
+          </div>
+        </div>
+      </a>
+
+      <script>
+        // Ambil nilai harga dari elemen HTML
+        var hargaElement = document.getElementById("formatted-harga-{{ forloop.counter }}");
+        var harga = hargaElement.innerText;
+    
+        // Hapus "Rp " dan ubah ke tipe data angka
+        harga = parseFloat(harga.replace("Rp ", ""));
+    
+        // Format harga menjadi format mata uang rupiah yang diinginkan
+        var formattedHarga = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(harga);
+    
+        // Perbarui teks dalam elemen dengan harga yang sudah diformat
+        hargaElement.innerText = formattedHarga;
+      </script>
+      {% endfor %}
+    </div>
+
+  </div>
+
+
+<!-- SCRIPT -->
+<script>
+  const imageWrapper = document.querySelector('.image-wrapper')
+  const imageItems = document.querySelectorAll('.image-wrapper > *')
+  const imageLength = imageItems.length
+  const perView = 3
+  let totalScroll = 0
+  const delay = 4000
+
+  imageWrapper.style.setProperty('--per-view', perView)
+  for(let i = 0; i < perView; i++) {
+    imageWrapper.insertAdjacentHTML('beforeend', imageItems[i].outerHTML)
+  }
+
+  let autoScroll = setInterval(scrolling, delay)
+
+  function scrolling() {
+    totalScroll++
+    if(totalScroll == imageLength + 1) {
+      clearInterval(autoScroll)
+      totalScroll = 1
+      imageWrapper.style.transition = '0s'
+      imageWrapper.style.left = '0'
+      autoScroll = setInterval(scrolling, delay)
+    }
+    const widthEl = document.querySelector('.image-wrapper > :first-child').offsetWidth + 24
+    imageWrapper.style.left = `-${totalScroll * widthEl}px`
+    imageWrapper.style.transition = '.3s'
+  }
+</script>
+
+<script>
+  const hamburgerMenu = document.querySelector('.hamburger-menu');
+  const menuItems = document.querySelector('.menu-items');
+
+  hamburgerMenu.addEventListener('click', () => {
+    menuItems.classList.toggle('active');
+  });
+
+</script>
+
+
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
