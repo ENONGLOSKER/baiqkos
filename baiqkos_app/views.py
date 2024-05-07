@@ -70,3 +70,9 @@ def like_kos(request, id):
         kos.suka += 1
         kos.save()
         return JsonResponse({'suka': kos.suka})
+
+def pusat_bantuan(request):
+    return render(request, 'pusat_bantuan.html')
+
+def syarat_ketentuan(request):
+    return render(request, 'syarat_ketentuan.html')

@@ -22,6 +22,8 @@ from baiqkos_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+    path('kos/pusat/bantuan/', views.pusat_bantuan, name='pusat_bantuan'),
+    path('kos/syarat/ketentuan/', views.syarat_ketentuan, name='syarat_ketentuan'),
     path('kos/datail/<int:id>/', views.detail, name='detail'),
     path('kos/form-sewa/', views.form_sewa, name='form_sewa'),
     path('suka/<int:id>/', views.like_kos, name='like_kos'),

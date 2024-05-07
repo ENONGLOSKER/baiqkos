@@ -1,0 +1,78 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Baiq Kos | Form</title>
+    <link href="{% static 'img/icon.png' %}" rel="icon">
+    <link rel="stylesheet" href="{% static 'css/fomr_sewa.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+     .nav {
+    background-color: #feedf0;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 55px;
+  }
+  </style>
+  </head>
+  <body>
+    <nav class="nav mb-5">
+      <div class="navbar-logo">
+        <a href="#"><img src="{% static 'img/LOGO.png' %}" alt="Logo"></a>
+      </div>
+      <div class="navbar-menu">
+        <ul class="menu-items">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="{% url 'pusat_bantuan' %}">Pusat Bantuan</a></li>
+          <li><a href="{% url 'syarat_ketentuan' %}">Syarat & Ketentuan</a></li>
+        </ul>
+      </div>
+      <div class="hamburger-menu">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+        <div class="row text-center">
+          <h1 class="fw-bold pb-5" style="color: #FB1157;">
+            <ion-icon name="warning"></ion-icon>
+            Syarat dan Ketentuan
+          </h1>
+          <p class="text-sm-start">
+            Syarat dan Ketentuan Pencarian Kos
+          </p>
+          <ul class="text-sm-start px-5" >
+            <li>Pencarian kos merujuk pada proses mencari dan menyewa tempat tinggal sementara dengan membayar sejumlah uang sewa bulanan kepada pemilik kos.</li>
+            <li>Pengguna memberikan informasi pribadi yang akurat untuk menggunakan layanan pencarian kos saat megajukan sewa</li>
+            <li>Kami berhak untuk memverifikasi informasi pengguna untuk keamanan dan kenyamanan bersama.</li>
+            <li>Informasi tentang ketersediaan kos yang ditampilkan di platform kami dapat berubah tanpa pemberitahuan sebelumnya.</li>
+            <li>Kami tidak bertanggung jawab atas ketidaktersediaan kos yang terjadi karena faktor di luar kendali kami.</li>
+            <li>Harga sewa yang tertera adalah harga yang disepakati antara penyewa dan pemilik kos.</li>
+            <li>Pembayaran harus dilakukan sesuai dengan ketentuan yang disepakati antara pihak penyewa dan pemilik kos.</li>
+            <li>Pengguna harus menghormati aturan dan peraturan yang berlaku di kos yang mereka sewa.</li>
+            <li>Pengguna diharapkan untuk menjaga kebersihan, keamanan, dan ketertiban di lingkungan kos.</li>
+            <li>Kebijakan pembatalan dan pengembalian dana ditentukan oleh pemilik kos dan harus dipatuhi oleh penyewa.</li>
+            <li>Kami tidak bertanggung jawab atas pembatalan atau pengembalian dana antara penyewa dan pemilik kos.</li>
+            <li>Informasi pribadi pengguna akan diperlakukan sesuai dengan kebijakan privasi yang berlaku.</li>
+            <li>Informasi pengguna hanya akan digunakan untuk keperluan internal platform kami dan tidak akan diserahkan kepada pihak ketiga tanpa persetujuan pengguna.</li>
+            <li>Kami berhak untuk mengubah atau memperbarui syarat dan ketentuan ini sesuai dengan kebijakan kami.</li>
+          </ul>
+          <p>
+            Dengan menggunakan layanan pencarian kos kami, pengguna dianggap telah membaca, memahami, dan menyetujui semua syarat dan ketentuan yang tercantum di atas.
+          </p>
+          
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>
