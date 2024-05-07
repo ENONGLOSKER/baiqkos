@@ -21,13 +21,21 @@
     width: 320px;
     border-radius: 0;
   }
+  .kos .kos-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    display: block;
+    border-radius: .5rem;
+    object-fit: cover;
+  }
   </style>
 </head>
 <body>
 
   <nav class="navbar">
     <div class="navbar-logo">
-      <a href="#"><img src="{% static 'img/LOGO.png' %}" alt="Logo"></a>
+      <a href="{% url 'index' %}"><img src="{% static 'img/LOGO.png' %}" alt="Logo"></a>
     </div>
     <div class="navbar-menu">
       <ul class="menu-items">
@@ -48,13 +56,14 @@
     <div class="header1">
       <img src="{% static 'img/bg_hero.png' %}" alt="bg hero">
       
+      <!-- Formulir Pencarian -->
       <div class="forms">
         <h1>Mau cari <span>Kos?</span></h1>
         <p id="slogan">Dapatkan infonya dan langsung sewa di BaiqKos</p>
-        <form action="">
-          <ion-icon name="search-outline" id="iconsch"></ion-icon>
-          <input type="text" placeholder=" Cari Lokasi atau Nama Kos">
-          <button type="submit" >Cari</button>
+        <form action="" method="GET">
+            <ion-icon name="search-outline" id="iconsch"></ion-icon>
+            <input type="text" name="q" placeholder="Cari Lokasi atau Nama Kos" value="{{ request.GET.q }}">
+            <button type="submit">Cari</button>
         </form>
       </div>
 
@@ -74,33 +83,40 @@
         </div>       
       </div>
     </div>
-    <!-- filter -->
-    <div class="filter">
-      <form action="">
-        <label for="cars" >Filter berdasarkan :</label>
-        <br>
-        <select name="cars" id="cars" style="margin-top: 10px;">
-          <option value="">Kategori</option>
-          <option value="">Kos Putra</option>
-          <option value="">Kos Putri</option>
-        </select>
-        <select name="cars" id="cars" style="width: 120px;">
-          <option value="">Wilayah</option>
-          <option value="">Gelogor</option>
-          <option value="">Darul Hijrah</option>
-          <option value="">Kepah</option>
-          <option value="">Gapuk</option>
-        </select>
-        <input type="submit" value="Submit">
-      </form>
-    </div>
+    <!-- Formulir Filter -->
+    <!-- Formulir Filter -->
+<div class="filter">
+  <form action="" method="GET">
+    <label for="jenis">Filter berdasarkan :</label>
+    <br>
+    <select name="jenis" id="jenis" style="margin-top: 10px;">
+      <option value="">Pilih Jenis Kos</option>
+      <option value="Putra" {% if request.GET.jenis == "Putra" %} selected {% endif %}>Putra</option>
+      <option value="Putri" {% if request.GET.jenis == "Putri" %} selected {% endif %}>Putri</option>
+    </select>
+    <select name="alamat" id="alamat" style="margin-top: 10px;">
+      <option value="">Pilih Alamat</option>
+      {% for alamat_item in alamat_list %}
+      <option value="{{ alamat_item }}" {% if request.GET.alamat == alamat_item %} selected {% endif %}>{{ alamat_item }}</option>
+      {% endfor %}
+    </select>
+    <input type="submit" value="Filter">
+  </form>
+</div>
+
+
     <!-- katalog kos -->
     <div class="kos">
       {% for kos_item in kos %}
       <a href="{% url 'detail' id=kos_item.id %}">
-        <div class="kos-card">
+        <div class="kos-card" style="position: relative;">
           {% if kos_item.fotos.all %}
+            {%if kos_item.suka <= 2 %}
+            <h4 style="color: rgb(255 214 16); position: absolute; left: 10px; top: 20px;"> <ion-icon name="ribbon"></ion-icon> Baru</h4>
             <img src="{{ kos_item.fotos.all.first.foto.url }}" alt="Gambar {{ kos_item.nama }}">
+            {% else %}
+            <img src="{{ kos_item.fotos.all.first.foto.url }}" alt="Gambar {{ kos_item.nama }}">
+            {% endif %}
           {% endif %}
           <div class="kos-title" style="text-transform: capitalize;">
             <!-- ket 1 -->
@@ -121,7 +137,7 @@
             <h2 style="font-size: 15px;"> 
               <span id="formatted-harga-{{ forloop.counter }}" style="font-size: 25px;">Rp {{ kos_item.harga_per_tahun }}</span>/Tahun
             </h2>
-            <h1 id="namakos">{{ kos_item.nama }}</h1>
+            <h1 id="namakos">Kos {{ kos_item.nama }}</h1>
             <span id="alamat">Alamat: {{ kos_item.alamat }}</span>
           </div>
         </div>

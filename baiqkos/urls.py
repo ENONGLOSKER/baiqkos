@@ -22,8 +22,9 @@ from baiqkos_app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('form/sewa', views.form_sewa, name='form_sewa'),
-    path('datail/<int:id>/', views.detail, name='detail'),
-    path('form-sewa/', views.form_sewa, name='form_sewa'),
+    path('kos/datail/<int:id>/', views.detail, name='detail'),
+    path('kos/form-sewa/', views.form_sewa, name='form_sewa'),
+    path('suka/<int:id>/', views.like_kos, name='like_kos'),
+     path('tanya-pemilik/<int:id>/', views.tanya_pemilik, name='tanya_pemilik'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

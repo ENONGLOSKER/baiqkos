@@ -7,14 +7,14 @@ body {
     font-family: "Kanit", sans-serif;
   } 
   
-  .navbar {
+  /* .navbar {
     background-color: #feedf0;
     overflow: hidden;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 50px;
-  }
+    padding: 10px 55px;
+  } */
   
   .navbar-logo img {
     height: 50px;

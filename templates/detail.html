@@ -26,6 +26,12 @@
       border-radius: 6px;
     }
 
+    .menu-item .liked{
+      color: rgb(244, 50, 82);
+      background-color: white;
+      box-shadow: 1px 1px 10px rgba(246, 143, 160, 0.619);
+    }
+
     :root {
 	--vs-primary: 29 92 255;
 }
@@ -159,13 +165,15 @@ button.primary {
    <div class="menu-item">
     <a href=""><ion-icon id="icon" name="people"></ion-icon> {{ kos.jenis }}</a>
     <a href=""><ion-icon id="icon" name="bed"></ion-icon> Sisa {{ kos.sisa_kamar }}</a>
-    <a href=""><ion-icon id="icon" name="heart"></ion-icon> Suka {{ kos.suka }}</a>
+    <a href="#" id="suka-btn" data-kos-id="{{ kos.id }}">
+      <ion-icon id="icon" name="heart"></ion-icon> Suka {{ kos.suka }}
+    </a>
    </div>
 
    <!-- ketrangan -->
    <div class="keterangan">
     <div class="detail-kos">
-      <h1>{{ kos.nama }}</h1>
+      <h1 style="text-transform: capitalize;">Kos {{ kos.nama }}</h1>
       <p><ion-icon name="location"></ion-icon> {{ kos.alamat }}</p>
 
       <div class="fasilitas">
@@ -173,12 +181,12 @@ button.primary {
           <img src="{% static 'img/icon.png' %}" alt="kos" style="width: 50px; height: 50px; border-radius: 50px;">
           <div class="pengelola-ket">
             <p>Kos dikelola oleh</p>
-            <h4>{{kos.pemilik}}</h4>
+            <h4>{{kos.pemilik.pemilik}}</h4>
           </div>
         </div>
 
         <div class="subpengelola">
-          <p>{{ kos.deskripsi }}</p>
+          <p>{{ kos.deskripsi |safe }}</p>
         </div>
       </div>
 
@@ -192,7 +200,7 @@ button.primary {
         </div>
 
         <div class="subpengelola">
-          <p>{{ kos.fasilitas }}</p>
+          <p>{{ kos.fasilitas |safe }}</p>
         </div>
       </div>
       
@@ -206,7 +214,7 @@ button.primary {
         </div>
 
         <div class="subpengelola">
-          <p>{{ kos.peraturan }}</p>
+          <p>{{ kos.peraturan |safe }}</p>
         </div>
       </div>
       
@@ -220,7 +228,7 @@ button.primary {
         </div>
 
         <div class="subpengelola">
-          <p>{{ kos.persyaratan }}</p>
+          <p>{{ kos.persyaratan |safe }}</p>
         </div>
       </div>
 
@@ -238,7 +246,7 @@ button.primary {
       <hr>
       <!-- Di file detail.html -->
       <div class="btn-sewa">
-        <a href="https://wa.me/+6281239771626?text=halo%20min,%20bisa%20bertanya%20tentang%20kos%20yang%20ada%3F" target="_blank">Tanya Pemilik</a>
+        <a href="{% url 'tanya_pemilik' kos.id %}" target="_blank">Tanya Pemilik</a>
         <a href="{% url 'form_sewa' %}?kos_id={{ kos.id }}">Ajukan Sewa</a>  <!-- Menambahkan ID kos sebagai query parameter -->
       </div>
 
@@ -250,6 +258,26 @@ button.primary {
 
 
 <!-- SCRIPT -->
+<!-- tombol like -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#suka-btn').click(function(e) {
+      e.preventDefault();
+      var kosId = $(this).data('kos-id');
+      var sukaBtn = $(this);
+      $.ajax({
+        type: 'POST',
+        url: '/suka/' + kosId + '/',
+        success: function(data) {
+          sukaBtn.addClass('liked'); // Menambah class 'liked' saat tombol diklik
+          sukaBtn.html('<ion-icon id="icon" name="heart"></ion-icon> Suka ' + data.suka);
+        }
+      });
+    });
+  });
+</script>
+<!-- format mata uang -->
 <script>
   // Ambil elemen yang berisi harga
   var hargaElement = document.getElementById("tahun");

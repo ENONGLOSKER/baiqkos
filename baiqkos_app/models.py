@@ -1,17 +1,25 @@
 from django.db import models
+from ckeditor.fields import RichTextField
+
+# Create your models here.
+class Pemilik(models.Model):
+    pemilik = models.CharField(max_length=100, default='Bapak')
+    nomor_hp = models.CharField(max_length=15)
+    def __str__(self) -> str:
+        return self.pemilik
 
 # Create your models here.
 class Kos(models.Model):
-    pemilik = models.CharField(max_length=50, default='Anonim')
+    pemilik = models.ForeignKey(Pemilik, on_delete=models.CASCADE)
     nama = models.CharField(max_length=100)
-    alamat = models.TextField()
+    alamat = models.TextField(default='Anjani - Suralaga.Anjani')
     jenis = models.CharField(max_length=10, choices=(('Putra', 'Putra'), ('Putri', 'Putri')))
     harga_per_tahun = models.IntegerField()
     sisa_kamar = models.PositiveIntegerField()
-    deskripsi = models.TextField(blank=True, null=True)
-    fasilitas = models.TextField(blank=True, null=True)
-    peraturan = models.TextField(blank=True, null=True)
-    persyaratan = models.TextField(blank=True, null=True)
+    deskripsi = RichTextField(blank=True, null=True)
+    fasilitas = RichTextField(blank=True, null=True)
+    peraturan = RichTextField(blank=True, null=True)
+    persyaratan = RichTextField(blank=True, null=True)
     suka = models.PositiveIntegerField(default=0)
 
     def __str__(self):

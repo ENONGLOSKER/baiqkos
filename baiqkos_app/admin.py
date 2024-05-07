@@ -1,8 +1,12 @@
 from django.contrib import admin
-from .models import Kos,FotoKos, Pemesanan
+from .models import Kos,FotoKos, Pemesanan, Pemilik
 from django.utils.safestring import mark_safe
 
 # Register your models here.
+@admin.register(Pemilik)
+class PemilikAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in Pemilik._meta.fields]
+
 @admin.register(Kos)
 class KosAdmin(admin.ModelAdmin):
     list_display = [field.name for field in Kos._meta.fields]
