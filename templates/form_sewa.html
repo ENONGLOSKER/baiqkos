@@ -48,45 +48,50 @@
               <form class="row g-3" method="POST" enctype="multipart/form-data" style="padding: 20px 0;">
                 {% csrf_token %}
                 <!-- tgl mulai -->
+                <div class="col-md-12">
+                    {{ form.kos.label }}
+                    {{ form.kos }}
+                </div>
                 <div class="col-md-6">
-                  {{ form.mulai_sewa.label }}
-                  {{ form.mulai_sewa }}
+                    {{ form.mulai_sewa.label }}
+                    {{ form.mulai_sewa }}
                 </div>
                 <!-- penyewa -->
                 <div class="col-md-6">
-                  {{form.penyewa.label}}
-                  {{form.penyewa}}
+                    {{ form.penyewa.label }}
+                    {{ form.penyewa }}
                 </div>
                 <!-- nomor hp -->
                 <div class="col-6">
-                  {{form.nomor_hp.label}}
-                  {{form.nomor_hp}}
+                    {{ form.nomor_hp.label }}
+                    {{ form.nomor_hp }}
                 </div>
-                <!-- jenis kelamian -->
+                <!-- jenis kelamin -->
                 <div class="col-6">
-                  {{form.jenis_kelamin.label}}
-                  {{form.jenis_kelamin}}
+                    {{ form.jenis_kelamin.label }}
+                    {{ form.jenis_kelamin }}
                 </div>
                 <!-- ktp -->
                 <div class="col-md-6">
-                  {{form.ktp.label}}
-                  {{form.ktp}}
+                    {{ form.ktp.label }}
+                    {{ form.ktp }}
                 </div>
                 <!-- bukti -->
                 <div class="col-md-6">
-                  {{form.bukti_pembayaran.label}}
-                  {{form.bukti_pembayaran}}
+                    {{ form.bukti_pembayaran.label }}
+                    {{ form.bukti_pembayaran }}
                 </div>
                 <div class="col-12">
-                  {{form.alamat.label}}
-                  {{form.alamat}}
+                    {{ form.alamat.label }}
+                    {{ form.alamat }}
                 </div>
-                
+            
                 <div class="col-12 pt-4 text-end">
-                  <a href="" class="btn text-white" style="width: 100px; background-color: rgb(56, 56, 56);">Batal</a>
-                  <button type="submit" class="btn btn-primary text-center" style="background-color: rgb(255, 2, 69); border: none;">Ajukan Sewa</button>
+                    <a href="" class="btn text-white" style="width: 100px; background-color: rgb(56, 56, 56);">Batal</a>
+                    <button type="submit" class="btn btn-primary text-center" style="background-color: rgb(255, 2, 69); border: none;">Ajukan Sewa</button>
                 </div>
-              </form>
+            </form>
+            
             </div>
           </div>
           <!-- bagian 2 form -->

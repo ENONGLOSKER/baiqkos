@@ -48,11 +48,16 @@ def form_sewa(request):
         form = PemesananForm(request.POST, request.FILES)
         if form.is_valid():
             form.instance.mulai_sewa = request.POST.get('mulai_sewa')
+            # Setel nilai bidang kos ke nilai yang diterima dari permintaan POST
+            form.instance.kos_id = request.POST.get('kos')  
             form.save()
-            return redirect('index') 
+            return redirect('index')
+        else:
+            print('erorr broh...',form.errors)
     else:
-        kos_id = request.GET.get('kos_id')  # Mengambil ID kos dari query parameter
-        form = PemesananForm(initial={'kos': kos_id})  # Mengatur nilai awal kos berdasarkan ID yang diterima
+        kos_id = request.GET.get('kos_id')
+        # Inisialisasi bidang kos dengan nilai yang sesuai
+        form = PemesananForm(initial={'kos': kos_id}) 
     context ={
         'form':form,
     }
