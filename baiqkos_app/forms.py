@@ -26,6 +26,6 @@ class PemesananForm(forms.ModelForm):
             'alamat': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Dusun, Desa, Kec-Kab'}),
         }
         labels = {
-            'mulai_sewa': 'Tanggal Mulai',  # Merubah label mulai_sewa menjadi 'Tanggal Sewa'
-            'ktp': 'Foto KTP'  # Merubah label mulai_sewa menjadi 'Tanggal Sewa'
+            'mulai_sewa': 'Tanggal Mulai', 
+            'ktp': 'Foto KTP'  
         }
