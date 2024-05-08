@@ -9,6 +9,9 @@ from django.contrib import messages
 from .models import Kos, FotoKos, Pemesanan
 from .forms import PemesananForm
 
+def dashboard(request):
+    return render(request, 'dashboard01.html')
+
 def tanya_pemilik(request, id):
     kos = Kos.objects.get(id=id)
     nomor_hp_pemilik = kos.pemilik.nomor_hp

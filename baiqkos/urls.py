@@ -20,7 +20,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from baiqkos_app import views
 urlpatterns = [
+
     path('admin/', admin.site.urls),
+    path('dashboard/', views.dashboard, name='dashboard'),
+
     path('', views.index, name='index'),
     path('kos/pusat/bantuan/', views.pusat_bantuan, name='pusat_bantuan'),
     path('kos/syarat/ketentuan/', views.syarat_ketentuan, name='syarat_ketentuan'),
