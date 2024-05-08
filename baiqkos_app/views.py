@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.db.models import Count
+from django.contrib import messages
 
 from .models import Kos, FotoKos, Pemesanan
 from .forms import PemesananForm
@@ -50,9 +51,11 @@ def form_sewa(request):
             form.instance.mulai_sewa = request.POST.get('mulai_sewa')
             # Setel nilai bidang kos ke nilai yang diterima dari permintaan POST
             form.instance.kos_id = request.POST.get('kos')  
+            messages.success(request, f"Selamat, Pengajuan Sewa Berhasil!")
             form.save()
             return redirect('index')
         else:
+            messages.error(request, f"Mohon maaf Pengajuan Sewa Gagal, Silahkan Coba Kembali!")
             print('erorr broh...',form.errors)
     else:
         kos_id = request.GET.get('kos_id')
