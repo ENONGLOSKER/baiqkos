@@ -22,13 +22,17 @@ from baiqkos_app import views
 urlpatterns = [
 
     path('admin/', admin.site.urls),
-    path('dashboard/', views.dashboard, name='dashboard'),
-
+    # admin
+    path('kos/signout/', views.signout_form, name='signout'),
+    path('kos/signin/', views.sigin_form, name='signin'),
+    path('kos/dashboard/', views.dashboard, name='dashboard'),
+    # user
     path('', views.index, name='index'),
     path('kos/pusat/bantuan/', views.pusat_bantuan, name='pusat_bantuan'),
     path('kos/syarat/ketentuan/', views.syarat_ketentuan, name='syarat_ketentuan'),
     path('kos/datail/<int:id>/', views.detail, name='detail'),
     path('kos/form-sewa/', views.form_sewa, name='form_sewa'),
+
     path('suka/<int:id>/', views.like_kos, name='like_kos'),
     path('tanya-pemilik/<int:id>/', views.tanya_pemilik, name='tanya_pemilik'),
 

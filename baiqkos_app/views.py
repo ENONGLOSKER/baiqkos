@@ -5,20 +5,10 @@ from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.db.models import Count
 from django.contrib import messages
+from django.contrib.auth import login, logout, authenticate
 
 from .models import Kos, FotoKos, Pemesanan
 from .forms import PemesananForm
-
-def dashboard(request):
-    return render(request, 'dashboard01.html')
-
-def tanya_pemilik(request, id):
-    kos = Kos.objects.get(id=id)
-    nomor_hp_pemilik = kos.pemilik.nomor_hp
-    nama_pemilik = kos.pemilik.pemilik
-    pesan = f"*Assalamualaikum wr.wb {nama_pemilik}*, bisa saya tanya lebih lanjut terkait kos *{kos.nama}*?"
-    url_whatsapp = f"https://wa.me/{nomor_hp_pemilik}/?text={pesan}"
-    return redirect(url_whatsapp)
 
 # Create your views here.
 def index(request):
@@ -69,6 +59,12 @@ def form_sewa(request):
     }
     return render(request, 'form_sewa.html', context)
 
+def pusat_bantuan(request):
+    return render(request, 'pusat_bantuan.html')
+
+def syarat_ketentuan(request):
+    return render(request, 'syarat_ketentuan.html')
+
 @csrf_exempt
 def like_kos(request, id):
     if request.method == 'POST':
@@ -77,8 +73,40 @@ def like_kos(request, id):
         kos.save()
         return JsonResponse({'suka': kos.suka})
 
-def pusat_bantuan(request):
-    return render(request, 'pusat_bantuan.html')
+def tanya_pemilik(request, id):
+    kos = Kos.objects.get(id=id)
+    nomor_hp_pemilik = kos.pemilik.nomor_hp
+    nama_pemilik = kos.pemilik.pemilik
+    pesan = f"*Assalamualaikum wr.wb {nama_pemilik}*, bisa saya tanya lebih lanjut terkait kos *{kos.nama}*?"
+    url_whatsapp = f"https://wa.me/{nomor_hp_pemilik}/?text={pesan}"
+    return redirect(url_whatsapp)
 
-def syarat_ketentuan(request):
-    return render(request, 'syarat_ketentuan.html')
+
+# ADMIN -------------------------------------------------------------------------------------
+def signout_form(request):
+    logout(request)
+    return redirect('index')
+
+def sigin_form(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, f"Sign in Berhasil, Selamat datang {user}")
+            return redirect('dashboard')
+        else:
+            messages.error(request, "Sign in Gagal, Silahkan coba kembali!")
+            return redirect('signin')
+    elif request.user.is_authenticated:
+        return redirect('dashboard')
+    
+    return render(request, 'signin.html')
+
+def dashboard(request):
+    return render(request, 'dashboard01.html')
+
+
+
