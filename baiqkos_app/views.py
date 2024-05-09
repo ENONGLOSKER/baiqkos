@@ -7,7 +7,7 @@ from django.db.models import Count
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 
-from .models import Kos, FotoKos, Pemesanan
+from .models import Kos, FotoKos, Pemesanan, Pemilik
 from .forms import PemesananForm
 
 # Create your views here.
@@ -42,7 +42,6 @@ def form_sewa(request):
         form = PemesananForm(request.POST, request.FILES)
         if form.is_valid():
             form.instance.mulai_sewa = request.POST.get('mulai_sewa')
-            # Setel nilai bidang kos ke nilai yang diterima dari permintaan POST
             form.instance.kos_id = request.POST.get('kos')  
             messages.success(request, f"Selamat, Pengajuan Sewa Berhasil!")
             form.save()
@@ -107,6 +106,27 @@ def sigin_form(request):
 
 def dashboard(request):
     return render(request, 'dashboard01.html')
+
+def dashboard_pemilik(request):
+    data = Pemilik.objects.all()
+    context = {
+        'datas': data,
+    }
+    return render(request, 'dashboard02.html', context)
+
+def dashboard_pemesan(request):
+    data = Pemesanan.objects.all()
+    context = {
+        'datas': data,
+    }
+    return render(request, 'dashboard03.html', context)
+
+def dashboard_kos(request):
+    data = Kos.objects.all()
+    context = {
+        'datas': data,
+    }
+    return render(request, 'dashboard04.html', context)
 
 
 

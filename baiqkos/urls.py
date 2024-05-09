@@ -26,6 +26,9 @@ urlpatterns = [
     path('kos/signout/', views.signout_form, name='signout'),
     path('kos/signin/', views.sigin_form, name='signin'),
     path('kos/dashboard/', views.dashboard, name='dashboard'),
+    path('kos/dashboard/pemilik/', views.dashboard_pemilik, name='pemilik'),
+    path('kos/dashboard/penyewa/', views.dashboard_pemesan, name='pemesan'),
+    path('kos/dashboard/kos/', views.dashboard_kos, name='kos'),
     # user
     path('', views.index, name='index'),
     path('kos/pusat/bantuan/', views.pusat_bantuan, name='pusat_bantuan'),

@@ -14,7 +14,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{% url 'dashboard' %}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -29,12 +29,12 @@
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{% url 'pemilik' %}">
             <i class="fas fa-fw fa-user"></i>
             <span>Pemilik</span></a>  
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{% url 'kos' %}">
             <i class="fas fa-fw fa-table"></i>
             <span>KOS</span></a>  
     </li>
@@ -44,7 +44,7 @@
             <span>Foto KOS</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{% url 'pemesan' %}">
             <i class="fas fa-fw fa-folder"></i>
             <span>Penyewa</span></a>
     </li>
