@@ -108,12 +108,12 @@
                                         <tr>
                                             <th>NO</th>
                                             <th>KOS</th>                                            
-                                            <th>TANGGAL MULAI</th>                                            
-                                            <th>TANGGAL SEWA</th>
+                                            <th>MULAI</th>                                            
+                                            <th>SEWA</th>
                                             <th>NAMA</th>
-                                            <th>JENIS KELAMIN</th>
+                                            <th>JK</th>
                                             <th>NOMOR HP</th>
-                                            <th>BUKTI PEMBAYARAN</th>
+                                            <th>BUKTI BYR</th>
                                             <th>KTP</th>
                                             <th>ALAMAT</th>
                                             <th>ACTION</th>
@@ -124,19 +124,19 @@
                                     {%for data in datas%}                                                
                                         <tr style="text-transform: capitalize;">
                                             <td class="text-center">{{forloop.counter}}</td>
-                                            <td class="text-center">{{data.kos}}</td> 
-                                            <td class="text-center">{{data.tanggal_pesan}}</td>
-                                            <td class="text-center">{{data.mulai_sewa}}</td>
-                                            <td class="text-center">{{data.penyewa}}</td>
-                                            <td class="text-center">{{data.jenis_kelamin}}</td>
-                                            <td class="text-center">{{data.nomor_hp}}</td>
-                                            <td class="text-center">
+                                            <td>{{data.kos}}</td> 
+                                            <td>{{data.tanggal_pesan}}</td>
+                                            <td>{{data.mulai_sewa}}</td>
+                                            <td>{{data.penyewa}}</td>
+                                            <td>{{data.jenis_kelamin}}</td>
+                                            <td>{{data.nomor_hp}}</td>
+                                            <td>
                                                 <img src="{{data.bukti_pembayaran.url}}" alt="baiqkos" width="100px">
                                             </td>
-                                            <td class="text-center">
+                                            <td>
                                                 <img src="{{data.ktp.url}}" alt="baiqkos" width="100px">
                                             </td>
-                                            <td class="text-center">{{data.alamat}}</td>
+                                            <td>{{data.alamat}}</td>
                                             <td class="text-center" >
                                                 <a href="" class="btn btn-warning btn-icon-split mb-1 ">
                                                     <span class="icon text-white-25">

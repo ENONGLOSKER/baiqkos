@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.db.models import Count
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Kos, FotoKos, Pemesanan, Pemilik
 from .forms import PemesananForm
@@ -107,12 +108,28 @@ def sigin_form(request):
 def dashboard(request):
     return render(request, 'dashboard01.html')
 
+
 def dashboard_pemilik(request):
-    data = Pemilik.objects.all()
+    cari = request.GET.get('cari')  # Mendapatkan parameter pencarian dari URL
+    if cari:  # Jika ada parameter pencarian
+        data = Pemilik.objects.filter(pemilik__icontains=cari)  # Melakukan pencarian berdasarkan nama pemilik
+    else:  # Jika tidak ada parameter pencarian, tampilkan semua data
+        data = Pemilik.objects.all()
+
+    paginator = Paginator(data, 5)  # Memisahkan data menjadi beberapa halaman, 10 data per halaman
+    page_number = request.GET.get('page')  # Mendapatkan nomor halaman dari parameter URL
+    try:
+        datas = paginator.page(page_number)
+    except PageNotAnInteger:
+        datas = paginator.page(1)
+    except EmptyPage:
+        datas = paginator.page(paginator.num_pages)
+
     context = {
-        'datas': data,
+        'datas': datas,
     }
     return render(request, 'dashboard02.html', context)
+
 
 def dashboard_pemesan(request):
     data = Pemesanan.objects.all()
@@ -122,11 +139,31 @@ def dashboard_pemesan(request):
     return render(request, 'dashboard03.html', context)
 
 def dashboard_kos(request):
-    data = Kos.objects.all()
+    cari = request.GET.get('cari')  # Mendapatkan parameter pencarian dari URL
+    if cari:  # Jika ada parameter pencarian
+        data = Kos.objects.filter(nama__icontains=cari)  # Melakukan pencarian berdasarkan nama kos
+    else:  # Jika tidak ada parameter pencarian, tampilkan semua data
+        data = Kos.objects.all()
+
+    paginator = Paginator(data, 3)  # Memisahkan data menjadi beberapa halaman, 10 data per halaman
+    page_number = request.GET.get('page')  # Mendapatkan nomor halaman dari parameter URL
+    try:
+        datas = paginator.page(page_number)
+    except PageNotAnInteger:
+        datas = paginator.page(1)
+    except EmptyPage:
+        datas = paginator.page(paginator.num_pages)
+
     context = {
-        'datas': data,
+        'datas': datas,
     }
     return render(request, 'dashboard04.html', context)
 
-
-
+def dashboard_foto_kos(request, id):
+    kos = get_object_or_404(Kos, id=id)  # Menggunakan get_object_or_404 untuk mendapatkan satu objek Kos berdasarkan id
+    data = kos.fotos.all()  # Menggunakan atribut 'fotos' untuk mendapatkan semua foto terkait kos tersebut
+    context = {
+        'kos': kos,
+        'datas': data,
+    }
+    return render(request, 'dashboard05.html', context)
