@@ -14,7 +14,7 @@
         <!-- Topbar Search -->
         <form action="" method="get" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
-                <input type="text" name="cari" class="form-control bg-light border-0 small" placeholder="Search for..." value="" aria-label="Search" aria-describedby="basic-addon2">
+                <input type="text" name="cari" class="form-control bg-light border-0 small" placeholder="Search for..." value="{{ request.GET.cari|default_if_none:'' }}" aria-label="Search" aria-describedby="basic-addon2">
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="submit">
                         <i class="fas fa-search fa-sm"></i>
@@ -58,7 +58,7 @@
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small" style="text-transform: capitalize;">{{user}}</span>
                     <img class="img-profile rounded-circle"
-                        src="{%static 'img/ira_img.png'%}">
+                        src="{%static 'img/icon.png'%}">
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -155,30 +155,30 @@
                                     {%endfor%}
                                     </tbody>
                                 </table>
-                                <!-- Pagination -->
-                                <!-- <div class="d-flex justify-content-center">
-                                    <ul class="pagination">
-                                        {% if datas.has_previous %}
-                                            <li class="page-item"><a class="page-link" href="?page={{ datas.previous_page_number }}">Previous</a></li>
+                             <!-- Pagination -->
+                             <div class="d-flex justify-content-center">
+                                <ul class="pagination">
+                                    {% if datas.has_previous %}
+                                        <li class="page-item"><a class="page-link" href="?cari={{ request.GET.cari|default_if_none:'' }}&page={{ datas.previous_page_number }}">Previous</a></li>
+                                    {% else %}
+                                        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                                    {% endif %}
+                            
+                                    {% for num in datas.paginator.page_range %}
+                                        {% if datas.number == num %}
+                                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
                                         {% else %}
-                                            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                                            <li class="page-item"><a class="page-link" href="?cari={{ request.GET.cari|default_if_none:'' }}&page={{ num }}">{{ num }}</a></li>
                                         {% endif %}
-                                        
-                                        {% for num in datas.paginator.page_range %}
-                                            {% if datas.number == num %}
-                                                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
-                                            {% else %}
-                                                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                                            {% endif %}
-                                        {% endfor %}
-                                        
-                                        {% if datas.has_next %}
-                                            <li class="page-item"><a class="page-link" href="?page={{ datas.next_page_number }}">Next</a></li>
-                                        {% else %}
-                                            <li class="page-item disabled"><span class="page-link">Next</span></li>
-                                        {% endif %}
-                                    </ul>
-                                </div>                                 -->
+                                    {% endfor %}
+                            
+                                    {% if datas.has_next %}
+                                        <li class="page-item"><a class="page-link" href="?cari={{ request.GET.cari|default_if_none:'' }}&page={{ datas.next_page_number }}">Next</a></li>
+                                    {% else %}
+                                        <li class="page-item disabled"><span class="page-link">Next</span></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
                         </div>
                     </div>                               
                 </div>

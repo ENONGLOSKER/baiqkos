@@ -101,14 +101,14 @@
         </div>
 
         <!-- Content data-->
-        <!-- <div class="row">
+        <div class="row">
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Alternatif</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="#" class="text-gray-800">Jumlah </a></div>
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">PER TGL</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="#" class="text-gray-800">Jumlah {{jlh_pemesanan_per_tanggal}}</a></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -123,8 +123,8 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Kriteria</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="#" class="text-gray-800">Jumlah </a></div>
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">KAMAR KOSONG</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="#" class="text-gray-800">Jumlah {{jlh_kamar_kosong}}</a></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -139,8 +139,8 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Bobot</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="" class="text-gray-800">Jumlah </a></div>
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">KOS TERBANYAK</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="" class="text-gray-800">Jumlah {{jlh_properti_terbanyak}}</a></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -150,7 +150,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-6 mb-4">
+            <!-- <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-info shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -175,8 +175,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div> -->
+            </div> -->
+     </div>
+        
         <div id="carouselExampleIndicators" class="carousel slide mb-4" data-bs-ride="carousel">
             <div class="carousel-inner">
               <div class="carousel-item active">
@@ -193,11 +194,10 @@
         
         
 
-        <!-- <div class="row">
-            <div class="col-xl-12 col-lg-12">
+        <div class="row">
+            <div class="col-xl-6 col-lg-6">
                 <div class="card shadow mb-4">
-                    <div
-                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Visualisasi Data Penilaian</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -209,13 +209,33 @@
                         </div>
                     </div>
                     <div class="card-body" >
-                        <div id="container" style="width:100%; height:400px;"></div>                       
+                        <div id="pemesanan-per-tanggal" style="width:100%; height:400px;"></div>
                     </div>
                 </div>
             </div>
-
-        </div> -->
-
+            
+            <div class="col-xl-6 col-lg-6">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Visualisasi Data Penilaian</h6>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                               
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                aria-labelledby="dropdownMenuLink">                                            
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" >
+                        <div id="pembagian-jenis-kelamin" style="width:100%; height:400px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
         <!-- end content data-->
     </div>
 
@@ -227,33 +247,5 @@
 
 <!-- SCRIPT -->   
 {%block script%}
-
-<script>
-   document.addEventListener('DOMContentLoaded', function () {
-        const chart = Highcharts.chart('container', {
-            chart: {
-                type: 'line'
-            },
-            title: {
-                text: 'Fruit Consumption'
-            },
-            xAxis: {
-                categories: ['Apples', 'Bananas', 'Oranges']
-            },
-            yAxis: {
-                title: {
-                    text: 'Fruit eaten'
-                }
-            },
-            series: [{
-                name: 'Jane',
-                data: [1, 0, 4]
-            }, {
-                name: 'John',
-                data: [5, 7, 3]
-            }]
-        });
-    });
-</script>
 
 {%endblock script%}

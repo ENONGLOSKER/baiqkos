@@ -7,6 +7,9 @@ from django.db.models import Count
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Count, F
+from django.http import JsonResponse
+from django.core.serializers import serialize
 
 from .models import Kos, FotoKos, Pemesanan, Pemilik
 from .forms import PemesananForm
@@ -38,26 +41,37 @@ def detail(request, id):
     kos = Kos.objects.prefetch_related('fotos').get(id=id)
     return render(request, 'detail.html', {'kos': kos})
 
+from django.shortcuts import get_object_or_404
+
 def form_sewa(request):
     if request.method == 'POST':
         form = PemesananForm(request.POST, request.FILES)
         if form.is_valid():
-            form.instance.mulai_sewa = request.POST.get('mulai_sewa')
-            form.instance.kos_id = request.POST.get('kos')  
+            pemesanan = form.save(commit=False)
+            pemesanan.mulai_sewa = request.POST.get('mulai_sewa')
+            pemesanan.kos_id = request.POST.get('kos')  
             messages.success(request, f"Selamat, Pengajuan Sewa Berhasil!")
-            form.save()
+            pemesanan.save()
+
+            # Kurangi sisa kamar pada kos yang dipilih
+            kos = get_object_or_404(Kos, id=pemesanan.kos_id)
+            kos.sisa_kamar -= 1
+            kos.save()
+
             return redirect('index')
         else:
             messages.error(request, f"Mohon maaf Pengajuan Sewa Gagal, Silahkan Coba Kembali!")
-            print('erorr broh...',form.errors)
+            print('error broh...', form.errors)
     else:
         kos_id = request.GET.get('kos_id')
-        # Inisialisasi bidang kos dengan nilai yang sesuai
-        form = PemesananForm(initial={'kos': kos_id}) 
+        # Inisialisasi bidang kos dengan objek Kos yang sesuai
+        kos = get_object_or_404(Kos, id=kos_id)
+        form = PemesananForm(initial={'kos': kos}) 
     context ={
-        'form':form,
+        'form': form,
     }
     return render(request, 'form_sewa.html', context)
+
 
 def pusat_bantuan(request):
     return render(request, 'pusat_bantuan.html')
@@ -105,8 +119,22 @@ def sigin_form(request):
     
     return render(request, 'signin.html')
 
+
+from django.db.models import Count
+from django.db.models.functions import TruncDate
+
 def dashboard(request):
-    return render(request, 'dashboard01.html')
+    # Mengambil data total pemesanan per tanggal
+    pemesanan_per_tanggal = Pemesanan.objects.annotate(date=TruncDate('tanggal_pesan')).values('date').annotate(total=Count('id'))
+
+    # Mengambil data pembagian jenis kelamin pemesan
+    pembagian_jenis_kelamin = Pemesanan.objects.values('jenis_kelamin').annotate(total=Count('id'))
+
+    return render(request, 'dashboard01.html', {
+        'pemesanan_per_tanggal': pemesanan_per_tanggal,
+        'pembagian_jenis_kelamin': pembagian_jenis_kelamin,
+    })
+
 
 
 def dashboard_pemilik(request):
@@ -116,7 +144,7 @@ def dashboard_pemilik(request):
     else:  # Jika tidak ada parameter pencarian, tampilkan semua data
         data = Pemilik.objects.all()
 
-    paginator = Paginator(data, 5)  # Memisahkan data menjadi beberapa halaman, 10 data per halaman
+    paginator = Paginator(data, 3)  # Memisahkan data menjadi beberapa halaman, 10 data per halaman
     page_number = request.GET.get('page')  # Mendapatkan nomor halaman dari parameter URL
     try:
         datas = paginator.page(page_number)
@@ -132,9 +160,23 @@ def dashboard_pemilik(request):
 
 
 def dashboard_pemesan(request):
-    data = Pemesanan.objects.all()
+    cari = request.GET.get('cari')  # Mendapatkan parameter pencarian dari URL
+    if cari:  # Jika ada parameter pencarian
+        data = Pemesanan.objects.filter(penyewa__icontains=cari)  # Melakukan pencarian berdasarkan nama penyewa
+    else:  # Jika tidak ada parameter pencarian, tampilkan semua data
+        data = Pemesanan.objects.all()
+
+    paginator = Paginator(data, 3)  # Memisahkan data menjadi beberapa halaman, 10 data per halaman
+    page_number = request.GET.get('page')  # Mendapatkan nomor halaman dari parameter URL
+    try:
+        datas = paginator.page(page_number)
+    except PageNotAnInteger:
+        datas = paginator.page(1)
+    except EmptyPage:
+        datas = paginator.page(paginator.num_pages)
+
     context = {
-        'datas': data,
+        'datas': datas,
     }
     return render(request, 'dashboard03.html', context)
 
