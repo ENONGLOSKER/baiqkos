@@ -3,16 +3,17 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from django.db.models import Q
-from django.db.models import Count
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count, F
 from django.http import JsonResponse
 from django.core.serializers import serialize
+from django.db.models.functions import TruncDate
+
 
 from .models import Kos, FotoKos, Pemesanan, Pemilik
-from .forms import PemesananForm
+from .forms import PemesananForm, PemilikForm, KosForm, FotoKosForm
 
 # Create your views here.
 def index(request):
@@ -36,12 +37,9 @@ def index(request):
     
     return render(request, 'index.html', {'kos': kos, 'alamat_list': alamat_list})
 
-
 def detail(request, id):
     kos = Kos.objects.prefetch_related('fotos').get(id=id)
     return render(request, 'detail.html', {'kos': kos})
-
-from django.shortcuts import get_object_or_404
 
 def form_sewa(request):
     if request.method == 'POST':
@@ -71,7 +69,6 @@ def form_sewa(request):
         'form': form,
     }
     return render(request, 'form_sewa.html', context)
-
 
 def pusat_bantuan(request):
     return render(request, 'pusat_bantuan.html')
@@ -119,10 +116,6 @@ def sigin_form(request):
     
     return render(request, 'signin.html')
 
-
-from django.db.models import Count
-from django.db.models.functions import TruncDate
-
 def dashboard(request):
     # Mengambil data total pemesanan per tanggal
     pemesanan_per_tanggal = Pemesanan.objects.annotate(date=TruncDate('tanggal_pesan')).values('date').annotate(total=Count('id'))
@@ -135,8 +128,7 @@ def dashboard(request):
         'pembagian_jenis_kelamin': pembagian_jenis_kelamin,
     })
 
-
-
+# dashboard pemilik
 def dashboard_pemilik(request):
     cari = request.GET.get('cari')  # Mendapatkan parameter pencarian dari URL
     if cari:  # Jika ada parameter pencarian
@@ -144,7 +136,7 @@ def dashboard_pemilik(request):
     else:  # Jika tidak ada parameter pencarian, tampilkan semua data
         data = Pemilik.objects.all()
 
-    paginator = Paginator(data, 3)  # Memisahkan data menjadi beberapa halaman, 10 data per halaman
+    paginator = Paginator(data, 5)  # Memisahkan data menjadi beberapa halaman, 10 data per halaman
     page_number = request.GET.get('page')  # Mendapatkan nomor halaman dari parameter URL
     try:
         datas = paginator.page(page_number)
@@ -158,7 +150,43 @@ def dashboard_pemilik(request):
     }
     return render(request, 'dashboard02.html', context)
 
+def pemilik_tambah(request):
+    if request.method == 'POST':
+        form = PemilikForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('pemilik')
+    else:
+        form = PemilikForm()
 
+    context = { 
+        'form':form,
+    }
+
+    return render(request, 'dashboard_form.html', context)
+
+def pemilik_update(request, id):
+    pemilik = Pemilik.objects.get(id=id)
+    if request.method == 'POST':
+        form = PemilikForm(request.POST, instance=pemilik)
+        if form.is_valid():
+            form.save()
+            return redirect('pemilik')
+    else:
+        form = PemilikForm(instance=pemilik)
+
+    context = { 
+        'form':form,
+    }
+
+    return render(request, 'dashboard_form.html', context)
+
+def pemilik_delete(request, id):
+    pemilik = Pemilik.objects.get(id=id)
+    pemilik.delete()
+    return redirect('pemilik')
+
+# dashboard pemesan
 def dashboard_pemesan(request):
     cari = request.GET.get('cari')  # Mendapatkan parameter pencarian dari URL
     if cari:  # Jika ada parameter pencarian
@@ -180,6 +208,43 @@ def dashboard_pemesan(request):
     }
     return render(request, 'dashboard03.html', context)
 
+def pemesan_tambah(request):
+    if request.method == 'POST':
+        form = PemesananForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('pemesan')
+    else:
+        form = PemesananForm()
+
+    context = { 
+        'form':form,
+    }
+
+    return render(request, 'dashboard_form.html', context)
+
+def pemesan_update(request, id):
+    pemesan = Pemesanan.objects.get(id=id)
+    if request.method == 'POST':
+        form = PemesananForm(request.POST, instance=pemesan)
+        if form.is_valid():
+            form.save()
+            return redirect('pemesan')
+    else:
+        form = PemesananForm(instance=pemesan)
+
+    context = { 
+        'form':form,
+    }
+
+    return render(request, 'dashboard_form.html', context)
+
+def pemesan_delete(request, id):
+    pemesan = Pemesanan.objects.get(id=id)
+    pemesan.delete()
+    return redirect('pemesan')
+
+# dashboard kos
 def dashboard_kos(request):
     cari = request.GET.get('cari')  # Mendapatkan parameter pencarian dari URL
     if cari:  # Jika ada parameter pencarian
@@ -201,6 +266,43 @@ def dashboard_kos(request):
     }
     return render(request, 'dashboard04.html', context)
 
+def kos_tambah(request):
+    if request.method == 'POST':
+        form = KosForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('kos')
+    else:
+        form = KosForm()
+
+    context = { 
+        'form':form,
+    }
+
+    return render(request, 'dashboard_form.html', context)
+
+def kos_update(request, id):
+    kos = Kos.objects.get(id=id)
+    if request.method == 'POST':
+        form = KosForm(request.POST, instance=kos)
+        if form.is_valid():
+            form.save()
+            return redirect('kos')
+    else:
+        form = KosForm(instance=kos)
+
+    context = { 
+        'form':form,
+    }
+
+    return render(request, 'dashboard_form.html', context)
+
+def kos_delete(request, id):
+    kos = Kos.objects.get(id=id)
+    kos.delete()
+    return redirect('kos')
+
+# dashboard foto kos
 def dashboard_foto_kos(request, id):
     kos = get_object_or_404(Kos, id=id)  # Menggunakan get_object_or_404 untuk mendapatkan satu objek Kos berdasarkan id
     data = kos.fotos.all()  # Menggunakan atribut 'fotos' untuk mendapatkan semua foto terkait kos tersebut
@@ -209,3 +311,39 @@ def dashboard_foto_kos(request, id):
         'datas': data,
     }
     return render(request, 'dashboard05.html', context)
+
+def foto_kos_tambah(request):
+    if request.method == 'POST':
+        form = FotoKosForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('kos')
+    else:
+        form = FotoKosForm()
+
+    context = { 
+        'form':form,
+    }
+
+    return render(request, 'dashboard_form.html', context)
+
+def foto_kos_update(request, id):
+    foto_kos = get_object_or_404(FotoKos, id=id)
+    if request.method == 'POST':
+        form = FotoKosForm(request.POST, instance=foto_kos)
+        if form.is_valid():
+            form.save()
+            return redirect('kos')
+    else:
+        form = FotoKosForm(instance=foto_kos)
+
+    context = { 
+        'form':form,
+    }
+
+    return render(request, 'dashboard_form.html', context)
+
+def foto_kos_delete(request, id):
+    foto_kos = get_object_or_404(FotoKos, id=id)
+    foto_kos.delete()
+    return redirect('kos')

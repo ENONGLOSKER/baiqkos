@@ -86,7 +86,7 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Foto Kos <span style="text-transform: capitalize; color: rgb(247, 33, 69);">{{kos.nama}}</span><h1>
                 
-                <a href=""  class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                <a href="{% url 'add_foto_kos' %}"  class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                     class="fas fa-plus fa-sm text-white-50"></i>  Add Data
                 </a>  
         </div>
@@ -123,13 +123,14 @@
                                             <td>{{data.deskripsi | truncatewords:10}}</td>
                                             
                                             <td class="text-center" >
-                                                <a href="" class="btn btn-warning btn-icon-split mb-1 ">
+                                                
+                                                <a href="{% url 'update_foto_kos' id=data.id %}" class="btn btn-warning btn-icon-split mb-1 ">
                                                     <span class="icon text-white-25">
                                                         <i class="fas fa-edit"></i>
                                                     </span>                                                                
                                                 </a>
                                                 
-                                                <a href="" class="btn btn-danger btn-icon-split mb-1" onclick="return confirm('yakin ingin menghapus data?')">
+                                                <a href="{% url 'delete_foto_kos' id=data.id %}" class="btn btn-danger btn-icon-split mb-1" onclick="return confirm('yakin ingin menghapus data?')">
                                                     <span class="icon text-white-25">
                                                         <i class="fas fa-trash"></i>
                                                     </span>                                                                

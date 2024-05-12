@@ -86,7 +86,7 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Pemilik Kos<h1>
                 
-                <a href=""  class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                <a href="{% url 'add_kos' %}"  class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                     class="fas fa-plus fa-sm text-white-50"></i>  Add Data
                 </a>  
         </div>
@@ -127,19 +127,19 @@
                                             <td><a href="{% url 'foto_kos' id=data.id %}">{{data.nama}}</a> | {{data.jenis}} | {{data.sisa_kamar}} kamar</td>
                                             <td>{{data.alamat}}</td>
                                             <td>{{data.harga_per_tahun}}</td>
-                                            <td>{{data.deskripsi | truncatewords:10 }}</td>
-                                            <td>{{data.fasilitas | truncatewords:10}}</td>
-                                            <td>{{data.peraturan | truncatewords:10}}</td>
-                                            <td>{{data.persyaratan | truncatewords:10}}</td>
+                                            <td>{{data.deskripsi | truncatewords:10 | safe}}</td>
+                                            <td>{{data.fasilitas | truncatewords:10 | safe }}</td>
+                                            <td>{{data.peraturan | truncatewords:10 | safe }}</td>
+                                            <td>{{data.persyaratan | truncatewords:10 | safe }}</td>
                                             
                                             <td class="text-center" >
-                                                <a href="" class="btn btn-warning btn-icon-split mb-1 ">
+                                                <a href="{% url 'update_kos' id=data.id %}" class="btn btn-warning btn-icon-split mb-1 ">
                                                     <span class="icon text-white-25">
                                                         <i class="fas fa-edit"></i>
                                                     </span>                                                                
                                                 </a>
                                                 
-                                                <a href="" class="btn btn-danger btn-icon-split mb-1" onclick="return confirm('yakin ingin menghapus data?')">
+                                                <a href="{% url 'delete_kos' id=data.id %}" class="btn btn-danger btn-icon-split mb-1" onclick="return confirm('yakin ingin menghapus data?')">
                                                     <span class="icon text-white-25">
                                                         <i class="fas fa-trash"></i>
                                                     </span>                                                                

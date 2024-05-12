@@ -1,13 +1,50 @@
-# Di file forms.py di aplikasi Anda
-
 from django import forms
-from .models import Pemesanan
+from .models import Pemesanan, Pemilik, Kos, FotoKos
 from django.core.exceptions import ValidationError
+
+class KosForm(forms.ModelForm):
+    class Meta:
+        model = Kos
+        fields = "__all__"
+
+        widgets = {
+            'pemilik':forms.Select(attrs={'class':'form-control'}),
+            'nama':forms.TextInput(attrs={'class':'form-control'}),
+            'alamat':forms.TextInput(attrs={'class':'form-control'}),
+            'jenis':forms.Select(attrs={'class':'form-control'}),
+            'harga_per_tahun':forms.NumberInput(attrs={'class':'form-control'}),
+            'sisa_kamar':forms.NumberInput(attrs={'class':'form-control', 'placeholder':'+6285337802822'}),
+            'deskripsi':forms.Textarea(attrs={'class':'form-control', 'placeholder':'+6285337802822'}),
+            'fasilitas':forms.Textarea(attrs={'class':'form-control', 'placeholder':'+6285337802822'}),
+            'peraturan':forms.Textarea(attrs={'class':'form-control', 'placeholder':'+6285337802822'}),
+            'persyaratan':forms.TextInput(attrs={'class':'form-control', 'placeholder':'+6285337802822'}),
+        }
+
+class FotoKosForm(forms.ModelForm):
+    class Meta:
+        model = FotoKos
+        fields = "__all__"
+
+        widgets = {
+            'kos':forms.Select(attrs={'class':'form-control'}),
+            'foto':forms.FileInput(attrs={'class': 'form-control'}),
+            'deskripsi':forms.Textarea(attrs={'class':'form-control', 'placeholder':'+6285337802822'}),
+        }
+
+class PemilikForm(forms.ModelForm):
+    class Meta:
+        model = Pemilik
+        fields = "__all__"
+
+        widgets = {
+            'pemilik':forms.TextInput(attrs={'class':'form-control'}),
+            'nomor_hp':forms.TextInput(attrs={'class':'form-control', 'placeholder':'+6285337802822'}),
+        }
 
 class PemesananForm(forms.ModelForm):
     JENIS_KELAMIN_CHOICES = [
-        ('Laki-laki', 'Laki-laki'),
-        ('Perempuan', 'Perempuan'),
+        ('L', 'Laki-laki'),
+        ('P', 'Perempuan'),
     ]
 
     jenis_kelamin = forms.ChoiceField(choices=JENIS_KELAMIN_CHOICES, widget=forms.Select(attrs={'class': 'form-select'}), label='Jenis Kelamin')

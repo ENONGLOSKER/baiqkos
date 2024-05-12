@@ -84,11 +84,11 @@
 
 
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Pemilik Kos<h1>
+            <h1 class="h3 mb-0 text-gray-800">Penyewa Kos<h1>
                 
-                <a href=""  class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                <!-- <a href="{% url 'add_pemesan' %}"  class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                     class="fas fa-plus fa-sm text-white-50"></i>  Add Data
-                </a>  
+                </a>   -->
         </div>
        
          
@@ -107,16 +107,16 @@
                                     <thead class="text-center">
                                         <tr>
                                             <th>NO</th>
-                                            <th>KOS</th>                                            
-                                            <th>MULAI</th>                                            
-                                            <th>SEWA</th>
                                             <th>NAMA</th>
                                             <th>JK</th>
+                                            <th>KOS</th>                                            
+                                            <th>MULAI</th>                                            
+                                            <!-- <th>SEWA</th> -->
                                             <th>NOMOR HP</th>
-                                            <th>BUKTI BYR</th>
-                                            <th>KTP</th>
                                             <th>ALAMAT</th>
-                                            <th>ACTION</th>
+                                            <th>BYR</th>
+                                            <th>KTP</th>
+                                            <!-- <th style="width: 50px;">ACTION</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>  
@@ -124,32 +124,41 @@
                                     {%for data in datas%}                                                
                                         <tr style="text-transform: capitalize;">
                                             <td class="text-center">{{forloop.counter}}</td>
+                                            <td>
+                                                <div class="dropdown no-arrow">
+                                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                                                        
+                                                        {{data.penyewa}}
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                        aria-labelledby="dropdownMenuLink">
+                                                        <div class="dropdown-header">Action:</div>
+                                                        <a class="dropdown-item" href="">Konfirmasi</a>                                                        
+                                                        <a class="dropdown-item" href="{% url 'update_pemesan'  id=data.id %}">Edit</a>                                                        
+                                                        <a class="dropdown-item" href="{% url 'delete_pemesan'  id=data.id %}" onclick="return confirm('yakin ingin menghapus data?')">Hapus</a>                                                        
+                                                    </div>
+                                                </div>
+                                            
+                                            </td>
+                                            <td class="text-center">{{data.jenis_kelamin}}</td>
                                             <td>{{data.kos}}</td> 
-                                            <td>{{data.tanggal_pesan}}</td>
+                                            <!-- <td>{{data.tanggal_pesan}}</td> -->
                                             <td>{{data.mulai_sewa}}</td>
-                                            <td>{{data.penyewa}}</td>
-                                            <td>{{data.jenis_kelamin}}</td>
                                             <td>{{data.nomor_hp}}</td>
-                                            <td>
-                                                <img src="{{data.bukti_pembayaran.url}}" alt="baiqkos" width="100px">
-                                            </td>
-                                            <td>
-                                                <img src="{{data.ktp.url}}" alt="baiqkos" width="100px">
-                                            </td>
                                             <td>{{data.alamat}}</td>
-                                            <td class="text-center" >
-                                                <a href="" class="btn btn-warning btn-icon-split mb-1 ">
-                                                    <span class="icon text-white-25">
-                                                        <i class="fas fa-edit"></i>
-                                                    </span>                                                                
-                                                </a>
-                                                
-                                                <a href="" class="btn btn-danger btn-icon-split mb-1" onclick="return confirm('yakin ingin menghapus data?')">
-                                                    <span class="icon text-white-25">
-                                                        <i class="fas fa-trash"></i>
-                                                    </span>                                                                
-                                                </a>
+                                            <td>
+                                                <img src="{{data.bukti_pembayaran.url}}" alt="baiqkos" width="80px">
                                             </td>
+                                            <td>
+                                                <img src="{{data.ktp.url}}" alt="baiqkos" width="80px">
+                                            </td>
+                                            <!-- <td class="text-center" >
+                                                <a href="" class="btn btn-primary btn-icon-split mb-1 ">
+                                                    <span class="icon text-white-25">
+                                                        <i class="fa-solid fa-house-circle-check"></i>
+                                                    </span>                                                                
+                                                </a>
+                                            </td> -->
                                         
                                         </tr> 
                                     {%endfor%}

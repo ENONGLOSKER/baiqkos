@@ -26,10 +26,27 @@ urlpatterns = [
     path('kos/signout/', views.signout_form, name='signout'),
     path('kos/signin/', views.sigin_form, name='signin'),
     path('kos/dashboard/', views.dashboard, name='dashboard'),
+    # pemilik
     path('kos/dashboard/pemilik/', views.dashboard_pemilik, name='pemilik'),
-    path('kos/dashboard/penyewa/', views.dashboard_pemesan, name='pemesan'),
+    path('kos/dashboard/pemilik/add/', views.pemilik_tambah, name='add_pemilik'),
+    path('kos/dashboard/pemilik/update/<int:id>/', views.pemilik_update, name='update_pemilik'),
+    path('kos/dashboard/pemilik/delete/<int:id>/', views.pemilik_delete, name='delete_pemilik'),
+    # penyewa
+    path('kos/dashboard/pemesan/', views.dashboard_pemesan, name='pemesan'),
+    path('kos/dashboard/pemesan/add/', views.pemesan_tambah, name='add_pemesan'),
+    path('kos/dashboard/pemesan/update/<int:id>/', views.pemesan_update, name='update_pemesan'),
+    path('kos/dashboard/pemesan/delete/<int:id>/', views.pemesan_delete, name='delete_pemesan'),
+    # kos
     path('kos/dashboard/kos/', views.dashboard_kos, name='kos'),
-    path('kos/dashboard/kos/foto/<int:id>', views.dashboard_foto_kos, name='foto_kos'),
+    path('kos/dashboard/kos/add/', views.kos_tambah, name='add_kos'),
+    path('kos/dashboard/kos/update/<int:id>/', views.kos_update, name='update_kos'),
+    path('kos/dashboard/kos/delete/<int:id>/', views.kos_delete, name='delete_kos'),
+    # foto kos
+    path('kos/dashboard/foto_kos/<int:id>', views.dashboard_foto_kos, name='foto_kos'),
+    path('kos/dashboard/foto_kos/add/', views.foto_kos_tambah, name='add_foto_kos'),
+    path('kos/dashboard/foto_kos/update/<int:id>/', views.foto_kos_update, name='update_foto_kos'),
+    path('kos/dashboard/foto_kos/delete/<int:id>/', views.foto_kos_delete, name='delete_foto_kos'),
+    
     # user
     path('', views.index, name='index'),
     path('kos/pusat/bantuan/', views.pusat_bantuan, name='pusat_bantuan'),
