@@ -110,7 +110,7 @@
                                             <th>NAMA</th>
                                             <th>JK</th>
                                             <th>KOS</th>                                            
-                                            <th>MULAI</th>                                            
+                                            <th>TGL SEWA</th>                                            
                                             <!-- <th>SEWA</th> -->
                                             <th>NOMOR HP</th>
                                             <th>ALAMAT</th>
@@ -132,8 +132,7 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <div class="dropdown-header">Action:</div>
-                                                        <a class="dropdown-item" href="">Konfirmasi</a>                                                        
+                                                        <div class="dropdown-header">Action:</div>                                                     
                                                         <a class="dropdown-item" href="{% url 'update_pemesan'  id=data.id %}">Edit</a>                                                        
                                                         <a class="dropdown-item" href="{% url 'delete_pemesan'  id=data.id %}" onclick="return confirm('yakin ingin menghapus data?')">Hapus</a>                                                        
                                                     </div>
@@ -143,7 +142,14 @@
                                             <td class="text-center">{{data.jenis_kelamin}}</td>
                                             <td>{{data.kos}}</td> 
                                             <!-- <td>{{data.tanggal_pesan}}</td> -->
-                                            <td>{{data.mulai_sewa}}</td>
+                                            <td class="text-center">
+                                                {% if data.mulai_sewa < tanggal_sekarang %}
+                                                    <span class="badge bg-primary text-white p-2 mb-2">Habis Waktu Sewa</span> <br>
+                                                    {{data.mulai_sewa}}
+                                                {% else %}
+                                                    {{data.mulai_sewa}}
+                                                {% endif %}
+                                            </td>
                                             <td>{{data.nomor_hp}}</td>
                                             <td>{{data.alamat}}</td>
                                             <td>
@@ -152,14 +158,6 @@
                                             <td>
                                                 <img src="{{data.ktp.url}}" alt="baiqkos" width="80px">
                                             </td>
-                                            <!-- <td class="text-center" >
-                                                <a href="" class="btn btn-primary btn-icon-split mb-1 ">
-                                                    <span class="icon text-white-25">
-                                                        <i class="fa-solid fa-house-circle-check"></i>
-                                                    </span>                                                                
-                                                </a>
-                                            </td> -->
-                                        
                                         </tr> 
                                     {%endfor%}
                                     </tbody>

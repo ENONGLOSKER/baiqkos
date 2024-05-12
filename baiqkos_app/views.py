@@ -1,16 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponseRedirect
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count, F
 from django.http import JsonResponse
-from django.core.serializers import serialize
 from django.db.models.functions import TruncDate
-
+from datetime import date
 
 from .models import Kos, FotoKos, Pemesanan, Pemilik
 from .forms import PemesananForm, PemilikForm, KosForm, FotoKosForm
@@ -196,17 +194,21 @@ def dashboard_pemesan(request):
 
     paginator = Paginator(data, 3)  # Memisahkan data menjadi beberapa halaman, 10 data per halaman
     page_number = request.GET.get('page')  # Mendapatkan nomor halaman dari parameter URL
+    
+    tanggal_sekarang = date.today()
+
     try:
         datas = paginator.page(page_number)
     except PageNotAnInteger:
         datas = paginator.page(1)
     except EmptyPage:
         datas = paginator.page(paginator.num_pages)
-
     context = {
         'datas': datas,
+        'tanggal_sekarang': tanggal_sekarang,
     }
     return render(request, 'dashboard03.html', context)
+
 
 def pemesan_tambah(request):
     if request.method == 'POST':
