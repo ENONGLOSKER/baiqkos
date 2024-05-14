@@ -53,9 +53,9 @@ urlpatterns = [
     path('kos/syarat/ketentuan/', views.syarat_ketentuan, name='syarat_ketentuan'),
     path('kos/datail/<int:id>/', views.detail, name='detail'),
     path('kos/form-sewa/', views.form_sewa, name='form_sewa'),
-   
 
-    path('suka/<int:id>/', views.like_kos, name='like_kos'),
-    path('tanya-pemilik/<int:id>/', views.tanya_pemilik, name='tanya_pemilik'),
+    path('kos/suka/<int:id>/', views.like_kos, name='like_kos'),
+    path('kos/tanya/pemilik/<int:id>/', views.tanya_pemilik, name='tanya_pemilik'),
+    path('kos/komfirmasi/<int:id>/', views.komfirmasi, name='komfirmasi'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

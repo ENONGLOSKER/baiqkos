@@ -99,8 +99,9 @@
                 <div class="card shadow mb-UKM 4">
                     <!-- Card Header - Dropdown -->
                     <div class="card shadow">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Data Pemilik Kos</h6>
+                        <div class="card-header py-3 d-flex justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Data Penyewa Kos</h6>
+                            <span>Tanggal Hari ini : {{now}}</span>
                         </div>
                         <div class="card-body table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -129,10 +130,14 @@
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                                                        
                                                         {{data.penyewa}}
+                                                        {% if data.komfirmasi %}
+                                                        <ion-icon name="checkmark-circle" class="text-primary" style="transform: translateY(3px);"></ion-icon>
+                                                        {% endif %}
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
                                                         <div class="dropdown-header">Action:</div>                                                     
+                                                        <a class="dropdown-item" href="{% url 'komfirmasi' id=data.id %}" target="_blank">Konfirmasi</a>                                                        
                                                         <a class="dropdown-item" href="{% url 'update_pemesan'  id=data.id %}">Edit</a>                                                        
                                                         <a class="dropdown-item" href="{% url 'delete_pemesan'  id=data.id %}" onclick="return confirm('yakin ingin menghapus data?')">Hapus</a>                                                        
                                                     </div>
@@ -140,15 +145,16 @@
                                             
                                             </td>
                                             <td class="text-center">{{data.jenis_kelamin}}</td>
-                                            <td>{{data.kos}}</td> 
+                                            <td>
+                                                {{data.kos}} <br>
+                                               <span id="formatted-harga-{{ forloop.counter }}" > {{ data.kos.harga_per_tahun }}</span>
+                                            </td> 
                                             <!-- <td>{{data.tanggal_pesan}}</td> -->
                                             <td class="text-center">
-                                                {% if data.mulai_sewa < tanggal_sekarang %}
+                                                {% if data.batas_sewa < now %}
                                                     <span class="badge bg-primary text-white p-2 mb-2">Habis Waktu Sewa</span> <br>
-                                                    {{data.mulai_sewa}}
-                                                {% else %}
-                                                    {{data.mulai_sewa}}
                                                 {% endif %}
+                                                {{ data.mulai_sewa }}
                                             </td>
                                             <td>{{data.nomor_hp}}</td>
                                             <td>{{data.alamat}}</td>
@@ -159,6 +165,20 @@
                                                 <img src="{{data.ktp.url}}" alt="baiqkos" width="80px">
                                             </td>
                                         </tr> 
+                                        <script>
+                                            // Ambil nilai harga dari elemen HTML
+                                            var hargaElement = document.getElementById("formatted-harga-{{ forloop.counter }}");
+                                            var harga = hargaElement.innerText;
+                                        
+                                            // Hapus "Rp " dan ubah ke tipe data angka
+                                            harga = parseFloat(harga.replace("Rp ", ""));
+                                        
+                                            // Format harga menjadi format mata uang rupiah yang diinginkan
+                                            var formattedHarga = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(harga);
+                                        
+                                            // Perbarui teks dalam elemen dengan harga yang sudah diformat
+                                            hargaElement.innerText = formattedHarga;
+                                        </script>
                                     {%endfor%}
                                     </tbody>
                                 </table>

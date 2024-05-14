@@ -5,10 +5,10 @@ from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Count, F
+from django.db.models import Count, F,Sum
 from django.http import JsonResponse
 from django.db.models.functions import TruncDate
-from datetime import date
+from datetime import date, timedelta
 
 from .models import Kos, FotoKos, Pemesanan, Pemilik
 from .forms import PemesananForm, PemilikForm, KosForm, FotoKosForm
@@ -90,6 +90,24 @@ def tanya_pemilik(request, id):
     url_whatsapp = f"https://wa.me/{nomor_hp_pemilik}/?text={pesan}"
     return redirect(url_whatsapp)
 
+def komfirmasi(request, id):
+    penyewa = Pemesanan.objects.get(id=id)
+    nomor_hp_penyewa = penyewa.nomor_hp
+    nama_penyewa = penyewa.penyewa
+    nama_kos = penyewa.kos.nama
+    tgl_mulai = penyewa.mulai_sewa
+    pemilik_kos = penyewa.kos.pemilik.pemilik  # Memperbaiki akses ke nama pemilik
+    harga_sewa_kos = penyewa.kos.harga_per_tahun
+
+    # Mengupdate field komfirmasi menjadi True
+    penyewa.komfirmasi = True
+    penyewa.save()
+
+    pesan = f"Selamat _{nama_penyewa}_, Anda *Berhasil melakukan Pengajuan Sewa* kos _{nama_kos}_ dengan harga _{harga_sewa_kos}_. Kos bisa ditempati sesuai dengan tanggal mulai _{tgl_mulai}_. \n\n*Terima kasih, salam _{pemilik_kos}_*.\n @Komfirmasi-BAIQKOS"
+    url_whatsapp = f"https://wa.me/{nomor_hp_penyewa}/?text={pesan}"
+    return redirect(url_whatsapp)
+
+
 
 # ADMIN -------------------------------------------------------------------------------------
 def signout_form(request):
@@ -115,17 +133,27 @@ def sigin_form(request):
     return render(request, 'signin.html')
 
 def dashboard(request):
-    # Mengambil data total pemesanan per tanggal
-    pemesanan_per_tanggal = Pemesanan.objects.annotate(date=TruncDate('tanggal_pesan')).values('date').annotate(total=Count('id'))
-
     # Mengambil data pembagian jenis kelamin pemesan
     pembagian_jenis_kelamin = Pemesanan.objects.values('jenis_kelamin').annotate(total=Count('id'))
+    jlh_pemilik = Pemilik.objects.all().count()
+    jlh_pemesan = Pemesanan.objects.all().count()
+    total_kos = Kos.objects.all().count()
+    # Menghitung total pendapatan dari semua kos yang dipesan
+    total_pendapatan_sewa = Pemesanan.objects.aggregate(total=Sum('kos__harga_per_tahun'))
 
-    return render(request, 'dashboard01.html', {
-        'pemesanan_per_tanggal': pemesanan_per_tanggal,
+
+    jumlah_pemesanan_per_kos = Pemesanan.objects.values('kos__nama').annotate(total=Count('id'))
+
+    context = {
         'pembagian_jenis_kelamin': pembagian_jenis_kelamin,
-    })
+        'jlh_pemilik': jlh_pemilik,
+        'jlh_pemesan': jlh_pemesan,
+        'total_kos': total_kos,
+        'total_pendapatan_sewa': total_pendapatan_sewa,
+        'jumlah_pemesanan_per_kos': jumlah_pemesanan_per_kos,
+    }
 
+    return render(request, 'dashboard01.html', context)
 # dashboard pemilik
 def dashboard_pemilik(request):
     cari = request.GET.get('cari')  # Mendapatkan parameter pencarian dari URL
@@ -186,16 +214,14 @@ def pemilik_delete(request, id):
 
 # dashboard pemesan
 def dashboard_pemesan(request):
-    cari = request.GET.get('cari')  # Mendapatkan parameter pencarian dari URL
-    if cari:  # Jika ada parameter pencarian
-        data = Pemesanan.objects.filter(penyewa__icontains=cari)  # Melakukan pencarian berdasarkan nama penyewa
-    else:  # Jika tidak ada parameter pencarian, tampilkan semua data
+    cari = request.GET.get('cari')  
+    if cari:  
+        data = Pemesanan.objects.filter(penyewa__icontains=cari)  
+    else:  
         data = Pemesanan.objects.all()
 
-    paginator = Paginator(data, 3)  # Memisahkan data menjadi beberapa halaman, 10 data per halaman
-    page_number = request.GET.get('page')  # Mendapatkan nomor halaman dari parameter URL
-    
-    tanggal_sekarang = date.today()
+    paginator = Paginator(data, 3)  
+    page_number = request.GET.get('page') 
 
     try:
         datas = paginator.page(page_number)
@@ -203,12 +229,17 @@ def dashboard_pemesan(request):
         datas = paginator.page(1)
     except EmptyPage:
         datas = paginator.page(paginator.num_pages)
+
+    # Hitung tanggal berakhir sewa untuk setiap pemesanan
+    DURASI_SEWA_HARI = 365  # Contoh durasi sewa 1 tahun
+    for pemesanan in datas:
+        pemesanan.batas_sewa = pemesanan.mulai_sewa + timedelta(days=DURASI_SEWA_HARI)
+
     context = {
         'datas': datas,
-        'tanggal_sekarang': tanggal_sekarang,
+        'now': date.today(),  # Tambahkan tanggal saat ini ke context
     }
     return render(request, 'dashboard03.html', context)
-
 
 def pemesan_tambah(request):
     if request.method == 'POST':
@@ -330,7 +361,7 @@ def foto_kos_tambah(request):
     return render(request, 'dashboard_form.html', context)
 
 def foto_kos_update(request, id):
-    foto_kos = get_object_or_404(FotoKos, id=id)
+    foto_kos = FotoKos.objects.get(id=id)
     if request.method == 'POST':
         form = FotoKosForm(request.POST, instance=foto_kos)
         if form.is_valid():
@@ -346,6 +377,6 @@ def foto_kos_update(request, id):
     return render(request, 'dashboard_form.html', context)
 
 def foto_kos_delete(request, id):
-    foto_kos = get_object_or_404(FotoKos, id=id)
+    foto_kos = FotoKos.objects.get(id=id)
     foto_kos.delete()
     return redirect('kos')

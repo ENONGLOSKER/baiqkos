@@ -38,8 +38,14 @@ class PemilikForm(forms.ModelForm):
 
         widgets = {
             'pemilik':forms.TextInput(attrs={'class':'form-control'}),
-            'nomor_hp':forms.TextInput(attrs={'class':'form-control', 'placeholder':'+6285337802822'}),
+            'nomor_hp':forms.TextInput(attrs={'class':'form-control', 'placeholder':'085237802811'}),
         }
+
+    def clean_nomor_hp(self):
+        nomor_hp = self.cleaned_data['nomor_hp']
+        if nomor_hp.startswith('0'):
+            nomor_hp = '+62' + nomor_hp[1:]
+        return nomor_hp
 
 class PemesananForm(forms.ModelForm):
     JENIS_KELAMIN_CHOICES = [
@@ -66,6 +72,12 @@ class PemesananForm(forms.ModelForm):
             'mulai_sewa': 'Tanggal Mulai', 
             'ktp': 'Foto KTP'  
         }
+
+    def clean_nomor_hp(self):
+        nomor_hp = self.cleaned_data.get('nomor_hp')
+        if nomor_hp and nomor_hp.startswith('0'):
+            nomor_hp = '+62' + nomor_hp[1:]
+        return nomor_hp
 
     def clean(self):
         cleaned_data = super().clean()

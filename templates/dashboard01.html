@@ -101,14 +101,28 @@
         </div>
 
         <!-- Content data-->
+        <div id="carouselExampleIndicators" class="carousel slide mb-4" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="{% static 'img/slide1.png' %}" class="d-block w-100" alt="..." style="height: 30%;">
+              </div>
+              <div class="carousel-item ">
+                <img src="{% static 'img/slide2.png' %}" class="d-block w-100" alt="..." style="height: 30%;">
+              </div>
+              <div class="carousel-item ">
+                <img src="{% static 'img/slide3.png' %}" class="d-block w-100" alt="..." style="height: 30%;">
+              </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">PER TGL</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="#" class="text-gray-800">Jumlah {{jlh_pemesanan_per_tanggal}}</a></div>
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">PEMILIK KOS</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="#" class="text-gray-800">Jumlah {{jlh_pemilik}} Orang</a></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -123,8 +137,8 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">KAMAR KOSONG</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="#" class="text-gray-800">Jumlah {{jlh_kamar_kosong}}</a></div>
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">PENYEWA</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="#" class="text-gray-800">Jumlah {{jlh_pemesan}} Orang</a></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -139,8 +153,8 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">KOS TERBANYAK</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="" class="text-gray-800">Jumlah {{jlh_properti_terbanyak}}</a></div>
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">TOTAL KOS</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="" class="text-gray-800">Jumlah {{total_kos}} </a></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -150,24 +164,13 @@
                 </div>
             </div>
 
-            <!-- <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Penilaian
-                                </div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="persentase_penilaian">%</div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress progress-sm mr-2">
-                                            <div class="progress-bar bg-info" role="progressbar"
-                                                style="width: 90%" id="progress_bar"></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">PENDAPATAN TOTAL PENYEWAAN</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="" class="text-gray-800"><span id="pendapatan">{{total_pendapatan_sewa.total}}</span></a></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -175,30 +178,14 @@
                         </div>
                     </div>
                 </div>
-            </div> -->
-     </div>
-        
-        <div id="carouselExampleIndicators" class="carousel slide mb-4" data-bs-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="{% static 'img/slide1.png' %}" class="d-block w-100" alt="..." style="height: 30%;">
-              </div>
-              <div class="carousel-item ">
-                <img src="{% static 'img/slide2.png' %}" class="d-block w-100" alt="..." style="height: 30%;">
-              </div>
-              <div class="carousel-item ">
-                <img src="{% static 'img/slide3.png' %}" class="d-block w-100" alt="..." style="height: 30%;">
-              </div>
             </div>
         </div>
-        
-        
-
+       
         <div class="row">
             <div class="col-xl-6 col-lg-6">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Visualisasi Data Penilaian</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Visualisasi Data Penyewa Berdasarkan Jenis Kelamin</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                               
@@ -209,15 +196,14 @@
                         </div>
                     </div>
                     <div class="card-body" >
-                        <div id="pemesanan-per-tanggal" style="width:100%; height:400px;"></div>
+                        <div id="container" style="width:100%; height:400px;"></div>
                     </div>
                 </div>
             </div>
-            
             <div class="col-xl-6 col-lg-6">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Visualisasi Data Penilaian</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Visualisasi Data Penyewa Berdasarkan Kos</h6>
                         <div class="dropdown no-arrow">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                               
@@ -228,12 +214,12 @@
                         </div>
                     </div>
                     <div class="card-body" >
-                        <div id="pembagian-jenis-kelamin" style="width:100%; height:400px;"></div>
+                        <div id="container2" style="width:100%; height:400px;"></div>
                     </div>
                 </div>
             </div>
         </div>
-        
+    
         
         
         <!-- end content data-->
@@ -247,5 +233,129 @@
 
 <!-- SCRIPT -->   
 {%block script%}
+<script>
+    // Ambil elemen yang berisi harga
+    var hargaElement = document.getElementById("pendapatan");
+
+    // Ambil nilai harga dari elemen tersebut
+    var harga = hargaElement.textContent.trim();
+
+    // Ubah string harga menjadi angka
+    var hargaAngka = parseInt(harga);
+
+    // Buat fungsi untuk mengubah angka menjadi format mata uang Rupiah
+    function formatRupiah(angka) {
+        var reverse = angka.toString().split('').reverse().join('');
+        var ribuan = reverse.match(/\d{1,3}/g);
+        ribuan = ribuan.join('.').split('').reverse().join('');
+        return 'Rp ' + ribuan;
+    }
+
+    // Ubah nilai harga menjadi format mata uang Rupiah
+    var hargaFormatted = formatRupiah(hargaAngka);
+
+    // Masukkan kembali nilai yang sudah diformat ke dalam elemen HTML
+    hargaElement.textContent = hargaFormatted;
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const chart = Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Jumlah Penyewa per Jenis Kelamin'
+            },
+            xAxis: {
+                categories: [
+                    {% for item in pembagian_jenis_kelamin %}
+                        '{{ item.jenis_kelamin }}',
+                    {% endfor %}
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Total Pemesanan'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.0f} pemesanan</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Total Pemesanan',
+                color: 'rgb(251, 28, 110)', // Ubah warna grafik menjadi pink
+                data: [
+                    {% for item in pembagian_jenis_kelamin %}
+                        {{ item.total }},
+                    {% endfor %}
+                ]
+            }]
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const chart = Highcharts.chart('container2', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Jumlah Penyewa per Kos'
+            },
+            xAxis: {
+                categories: [
+                    {% for item in jumlah_pemesanan_per_kos %}
+                        '{{ item.kos__nama }}',
+                    {% endfor %}
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Total Pemesanan'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.0f} pemesanan</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Total Pemesanan',
+                color: 'rgb(251, 28, 110)', // Ubah warna grafik menjadi pink
+                data: [
+                    {% for item in jumlah_pemesanan_per_kos %}
+                        {{ item.total }},
+                    {% endfor %}
+                ]
+            }]
+        });
+    });
+</script>
 
 {%endblock script%}

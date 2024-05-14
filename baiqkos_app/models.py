@@ -43,6 +43,7 @@ class Pemesanan(models.Model):
     bukti_pembayaran = models.ImageField(upload_to='bukti_pembayaran/')
     ktp = models.ImageField(upload_to='ktp/')
     alamat = models.TextField()
+    komfirmasi = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Pemesanan {self.kos.nama} pada {self.tanggal_pesan}"
