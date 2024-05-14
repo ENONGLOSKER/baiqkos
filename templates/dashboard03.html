@@ -136,10 +136,16 @@
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                         aria-labelledby="dropdownMenuLink">
-                                                        <div class="dropdown-header">Action:</div>                                                     
+                                                        <div class="dropdown-header">Action:</div>
+                                                        {% if data.komfirmasi %}   
+                                                        <a class="dropdown-item disabled" href="#" style="cursor: not-allowed; color: #ccc;" >Konfirmasi</a>                                                    
+                                                        <a class="dropdown-item" href="{% url 'update_pemesan'  id=data.id %}">Edit</a>                                                        
+                                                        <a class="dropdown-item" href="{% url 'delete_pemesan'  id=data.id %}" onclick="return confirm('yakin ingin menghapus data?')">Hapus</a>                                                        
+                                                        {% else %}
                                                         <a class="dropdown-item" href="{% url 'komfirmasi' id=data.id %}" target="_blank">Konfirmasi</a>                                                        
                                                         <a class="dropdown-item" href="{% url 'update_pemesan'  id=data.id %}">Edit</a>                                                        
                                                         <a class="dropdown-item" href="{% url 'delete_pemesan'  id=data.id %}" onclick="return confirm('yakin ingin menghapus data?')">Hapus</a>                                                        
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             
