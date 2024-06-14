@@ -28,7 +28,6 @@ pymemcache==4.0.0
 pypiwin32==223
 python-dateutil==2.9.0.post0
 pytz==2024.1
-pywin32==306
 requests==2.31.0
 six==1.16.0
 sqlparse==0.4.4
