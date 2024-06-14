@@ -33,58 +33,58 @@
       box-shadow: 1px 1px 10px rgba(246, 143, 160, 0.619);
     }
 
-    :root {
-	--vs-primary: 29 92 255;
-}
+  :root {
+	  --vs-primary: 29 92 255;
+  }
 
-/*Dialog Styles*/
-dialog {
-  margin: 50px auto;
-	padding: 1rem 3rem;
-	background: white;
-	max-width: 100%;
-	padding-top: 2rem;
-	border-radius: 20px;
-	border: 0;
-	box-shadow: 0 5px 30px 0 rgb(0 0 0 / 10%);
-	animation: fadeIn 1s ease both;
-	&::backdrop {
-		animation: fadeIn 1s ease both;
-		background: rgb(255 255 255 / 40%);
-		z-index: 2;
-		backdrop-filter: blur(20px);
-	}
-	.x {
-		filter: grayscale(1);
-		border: none;
-		background: none;
-		position: absolute;
-		top: 15px;
-		right: 10px;
-		transition: ease filter, transform 0.3s;
-		cursor: pointer;
-		transform-origin: center;
-		&:hover {
-			filter: grayscale(0);
-			transform: scale(1.1);
-		}
-	}
-	h2 {
-		font-weight: 600;
-		font-size: 2rem;
-		padding-bottom: 1rem;
-	}
-	p {
-		font-size: 1rem;
-		line-height: 1.3rem;
-		padding: 0.5rem 0;
-		a {
-			&:visited {
-				color: rgb(var(--vs-primary));
-			}
-		}
-	}
-}
+  /*Dialog Styles*/
+  dialog {
+    margin: 50px auto;
+    padding: 1rem 3rem;
+    background: white;
+    max-width: 100%;
+    padding-top: 2rem;
+    border-radius: 20px;
+    border: 0;
+    box-shadow: 0 5px 30px 0 rgb(0 0 0 / 10%);
+    animation: fadeIn 1s ease both;
+    &::backdrop {
+      animation: fadeIn 1s ease both;
+      background: rgb(255 255 255 / 40%);
+      z-index: 2;
+      backdrop-filter: blur(20px);
+    }
+    .x {
+      filter: grayscale(1);
+      border: none;
+      background: none;
+      position: absolute;
+      top: 15px;
+      right: 10px;
+      transition: ease filter, transform 0.3s;
+      cursor: pointer;
+      transform-origin: center;
+      &:hover {
+        filter: grayscale(0);
+        transform: scale(1.1);
+      }
+    }
+    h2 {
+      font-weight: 600;
+      font-size: 2rem;
+      padding-bottom: 1rem;
+    }
+    p {
+      font-size: 1rem;
+      line-height: 1.3rem;
+      padding: 0.5rem 0;
+      a {
+        &:visited {
+          color: rgb(var(--vs-primary));
+        }
+      }
+    }
+  }
 
 /*General Styles*/
 button.primary {
